@@ -12,7 +12,7 @@ namespace DoUnlimited
     {
         private string _userId;
         private string _userKey;
-        private string _notifyUrl;
+        private string _notify;
 
         public string UserId
         {
@@ -38,15 +38,15 @@ namespace DoUnlimited
             }
         }
 
-        public string NotifyUrl
+        public string Notify
         {
             get
             {
-                return this._notifyUrl;
+                return this._notify;
             }
             set
             {
-                this._notifyUrl = value;
+                this._notify = value;
             }
         }
 
@@ -82,6 +82,7 @@ namespace DoUnlimited
 
         private void RequestAction()
         {
+            //POST requests to http://m.vid.ly/api/
             throw new NotImplementedException();
         }
     }
