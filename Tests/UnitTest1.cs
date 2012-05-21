@@ -90,7 +90,17 @@ namespace Tests
         [TestMethod]
         public void Test_Valid_UpdateMedia()
         {
-            this._vidly.UpdateMedia();
+            List<UpdateMediaSource> media = new List<UpdateMediaSource>();
+            UpdateMediaSource video1 = new UpdateMediaSource();
+            video1.MediaShortLink = "http://vid.ly/abc123";
+            video1.SourceFile = "http://cdn.mysite.com/replacement.wmv";
+            //video1.Protect = new MediaProtect();
+            //video1.Protect.StartDate = DateTime.Now;
+            //video1.Protect.ExpirationDate = DateTime.Now.AddMonths(2);
+            //video1.Protect.IpAddress = "192.168.50.*";
+            media.Add(video1);
+
+            this._vidly.UpdateMedia(media);
         }
 
         //TODO test error handling of UpdateMedia response

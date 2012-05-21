@@ -6,12 +6,26 @@ namespace DoUnlimited
 {
     public class UpdateMediaSource : MediaSource
     {
+        private string _mediaShortLink;
         private string _vanityLink;
-        //TODO add new MediaProtect class and property
+        private MediaProtect _protect;
 
         public UpdateMediaSource()
             : base()
         {
+        }
+
+        [XmlElement("MediaShortLink")]
+        public string MediaShortLink
+        {
+            get
+            {
+                return this._mediaShortLink;
+            }
+            set
+            {
+                this._mediaShortLink = value;
+            }
         }
 
         [XmlElement("VanityLink")]
@@ -24,6 +38,19 @@ namespace DoUnlimited
             set
             {
                 this._vanityLink = value;
+            }
+        }
+
+        [XmlElement("Protect")]
+        public MediaProtect Protect
+        {
+            get
+            {
+                return this._protect;
+            }
+            set
+            {
+                this._protect = value;
             }
         }
     }

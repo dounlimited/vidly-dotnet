@@ -67,10 +67,10 @@ namespace DoUnlimited
             return response;
         }
 
-        public VidlyResponse UpdateMedia()
+        public VidlyResponse UpdateMedia(List<UpdateMediaSource> media)
         {
-            //TODO add method parameters
             UpdateMediaRequest request = new UpdateMediaRequest();
+            request.Sources.AddRange(media);
             VidlyResponse response = this.RequestAction(request);
             return response;
         }

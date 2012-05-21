@@ -5,19 +5,18 @@ using System.Xml.Serialization;
 namespace DoUnlimited
 {
     [XmlRoot("Query")]
-    public class UpdateMediaRequest : AddMediaRequest
+    public class UpdateMediaRequest : VidlyRequest
     {
         private List<UpdateMediaSource> _sources;
 
-        public UpdateMediaRequest()
+        public UpdateMediaRequest() 
+            : base("UpdateMedia")
         {
-            this.Action = "UpdateMedia";
-
             this._sources = new List<UpdateMediaSource>();
         }
 
         [XmlElement("Source")]
-        public new List<UpdateMediaSource> Sources
+        public List<UpdateMediaSource> Sources
         {
             get
             {
