@@ -71,11 +71,25 @@ namespace DoUnlimited
 
         public string ToXml(Type request)
         {
-            StringBuilder sb = new StringBuilder();
             XmlSerializer serial = new XmlSerializer(request);
-            XmlWriter xw = XmlWriter.Create(sb);
+            System.IO.MemoryStream ms = new System.IO.MemoryStream();
+
+            XmlWriterSettings xws = new XmlWriterSettings();
+            xws.Encoding = Encoding.UTF8;
+
+            XmlWriter xw = XmlWriter.Create(ms, xws);
             serial.Serialize(xw, this);
-            return sb.ToString();
+
+            xw.Flush();
+            xw.Close();
+            ms.Position = 0;
+
+            System.IO.StreamReader sr = new System.IO.StreamReader(ms);
+            string xml = sr.ReadToEnd();
+            ms.Close();
+            sr.Close();
+
+            return xml;
         }
     }
 }
