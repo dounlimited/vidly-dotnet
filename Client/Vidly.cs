@@ -60,8 +60,7 @@ namespace DoUnlimited
 
         public VidlyResponse AddMediaLite(List<MediaSource> media)
         {
-            AddMediaRequest request = new AddMediaRequest();
-            request.Action = "AddMediaLite";
+            AddMediaRequest request = new AddMediaRequest("AddMediaLite");
             request.Sources.AddRange(media);
             VidlyResponse response = this.RequestAction(request);
             return response;

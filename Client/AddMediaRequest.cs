@@ -15,6 +15,12 @@ namespace DoUnlimited
             this._sources = new List<MediaSource>();
         }
 
+        public AddMediaRequest(string action)
+            : base(action)
+        {
+            this._sources = new List<MediaSource>();
+        }
+
         [XmlElement("Source")]
         public List<MediaSource> Sources
         {
