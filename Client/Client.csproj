@@ -8,7 +8,7 @@
     <ProjectGuid>{515D6F91-CB6F-47D5-A6C5-C981EA58505C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DoUnlimited</RootNamespace>
+    <RootNamespace>DoUnlimited.Vidly.Vidly</RootNamespace>
     <AssemblyName>DoUnlimited.Vidly</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

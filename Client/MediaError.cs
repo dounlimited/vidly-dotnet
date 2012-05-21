@@ -2,7 +2,7 @@
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace DoUnlimited
+namespace DoUnlimited.Vidly
 {
     [XmlRoot("Error")]
     public class MediaError : IXmlSerializable

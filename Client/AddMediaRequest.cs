@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Xml.Serialization;
 
-namespace DoUnlimited
+namespace DoUnlimited.Vidly
 {
     [XmlRoot("Query")]
     public class AddMediaRequest : VidlyRequest

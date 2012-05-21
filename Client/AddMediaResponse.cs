@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace DoUnlimited
+namespace DoUnlimited.Vidly
 {
     //public class AddMediaResponse : VidlyResponse
     //{

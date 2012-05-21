@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Xml.Serialization;
 
-namespace DoUnlimited
+namespace DoUnlimited.Vidly
 {
     public class MediaProtect
     {

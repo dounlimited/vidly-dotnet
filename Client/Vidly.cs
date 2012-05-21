@@ -6,7 +6,7 @@ using System.Net;
 using System.Text;
 using System.Xml;
 
-namespace DoUnlimited
+namespace DoUnlimited.Vidly
 {
     /// <summary>
     /// Imeplements the methods available via the Vid.ly API http://api.vid.ly/
