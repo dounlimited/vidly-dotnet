@@ -53,7 +53,9 @@
     <Compile Include="MediaProtect.cs" />
     <Compile Include="MediaShortLink.cs" />
     <Compile Include="MediaSource.cs" />
+    <Compile Include="MediaStatus.cs" />
     <Compile Include="StatusMediaRequest.cs" />
+    <Compile Include="StatusMediaResponse.cs" />
     <Compile Include="UpdateMediaRequest.cs" />
     <Compile Include="UpdateMediaSource.cs" />
     <Compile Include="Vidly.cs" />
