@@ -1,17 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Xml.Serialization;
 
 namespace DoUnlimited
 {
-    public abstract class VidlyResponse
+    [XmlRoot("Response")]
+    public class VidlyResponse
     {
         private string _message;
         private decimal _messageCode;
-        private List<object> _success;
-        private List<object> _errors;
+        private List<MediaShortLink> _success;
+        private List<MediaError> _errors;
 
+        [XmlElement("Message")]
         public string Message
         {
             get
@@ -24,6 +25,7 @@ namespace DoUnlimited
             }
         }
 
+        [XmlElement("MessageCode")]
         public decimal MessageCode
         {
             get
@@ -36,7 +38,8 @@ namespace DoUnlimited
             }
         }
 
-        public List<object> Success
+        [XmlElement("Success")]
+        public List<MediaShortLink> Success
         {
             get
             {
@@ -48,7 +51,8 @@ namespace DoUnlimited
             }
         }
 
-        public List<object> Errors
+        [XmlElement("Errors")]
+        public List<MediaError> Errors
         {
             get
             {

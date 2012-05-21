@@ -3,6 +3,7 @@ using System.Text;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using DoUnlimited;
 
 namespace Tests
 {
@@ -12,11 +13,13 @@ namespace Tests
     [TestClass]
     public class UnitTest1
     {
+        private Vidly _vidly;
+
         public UnitTest1()
         {
-            //
-            // TODO: Add constructor logic here
-            //
+            this._vidly = new Vidly();
+            this._vidly.UserId = "MyUserId";
+            this._vidly.UserKey = "MyUserKey";
         }
 
         private TestContext testContextInstance;
@@ -60,11 +63,36 @@ namespace Tests
         #endregion
 
         [TestMethod]
-        public void TestMethod1()
+        public void Test_Valid_AddMedia()
         {
-            //
-            // TODO: Add test logic	here
-            //
+            List<MediaSource> media = new List<MediaSource>();
+            media.Add(new MediaSource("http://google.com/logo.gif"));
+            media.Add(new MediaSource("http://yahoo.com/video.wmv", "cdn.yahoo.com"));
+            media.Add(new MediaSource("http://bing.com/funny.mov", "cdn.bing.com", "formatObject"));
+            this._vidly.AddMedia(media);
+            this._vidly.AddMediaLite(media);
         }
+        
+        //TODO test error handling of AddMedia response
+
+        [TestMethod]
+        public void Test_Valid_AddMediaLite()
+        {
+            List<MediaSource> media = new List<MediaSource>();
+            media.Add(new MediaSource("http://google.com/logo.gif"));
+            media.Add(new MediaSource("http://yahoo.com/video.wmv", "cdn.yahoo.com"));
+            media.Add(new MediaSource("http://bing.com/funny.mov", "cdn.bing.com", "formatObject"));
+            this._vidly.AddMediaLite(media);
+        }
+
+        //TODO test error handling of AddMediaLite response
+
+        [TestMethod]
+        public void Test_Valid_UpdateMedia()
+        {
+            this._vidly.UpdateMedia();
+        }
+
+        //TODO test error handling of UpdateMedia response
     }
 }

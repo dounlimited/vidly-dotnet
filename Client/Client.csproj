@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{515D6F91-CB6F-47D5-A6C5-C981EA58505C}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -45,8 +45,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddMediaRequest.cs" />
+    <Compile Include="AddMediaResponse.cs" />
+    <Compile Include="MediaError.cs" />
+    <Compile Include="MediaShortLink.cs" />
+    <Compile Include="MediaSource.cs" />
+    <Compile Include="UpdateMediaRequest.cs" />
+    <Compile Include="UpdateMediaSource.cs" />
     <Compile Include="Vidly.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="VidlyRequest.cs" />
+    <Compile Include="VidlyResponse.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

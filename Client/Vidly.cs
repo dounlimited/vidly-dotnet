@@ -50,19 +50,29 @@ namespace DoUnlimited
             }
         }
 
-        public void AddMedia()
+        public VidlyResponse AddMedia(List<MediaSource> media)
         {
-            throw new NotImplementedException();
+            AddMediaRequest request = new AddMediaRequest();
+            request.Sources.AddRange(media);
+            VidlyResponse response = this.RequestAction(request);
+            return response;
         }
 
-        public void AddMediaLite()
+        public VidlyResponse AddMediaLite(List<MediaSource> media)
         {
-            throw new NotImplementedException();
+            AddMediaRequest request = new AddMediaRequest();
+            request.Action = "AddMediaLite";
+            request.Sources.AddRange(media);
+            VidlyResponse response = this.RequestAction(request);
+            return response;
         }
 
-        public void UpdateMedia()
+        public VidlyResponse UpdateMedia()
         {
-            throw new NotImplementedException();
+            //TODO add method parameters
+            UpdateMediaRequest request = new UpdateMediaRequest();
+            VidlyResponse response = this.RequestAction(request);
+            return response;
         }
 
         public void DeleteMedia()
@@ -80,9 +90,18 @@ namespace DoUnlimited
             throw new NotImplementedException();
         }
 
-        private void RequestAction()
+        private VidlyResponse RequestAction(VidlyRequest request)
         {
-            //POST requests to http://m.vid.ly/api/
+            request.UserId = this.UserId;
+            request.UserKey = this.UserKey;
+            request.Notify = this.Notify;
+
+            string xmlRequest = request.ToXml(request.GetType());
+            Console.WriteLine(xmlRequest);
+
+            //TODO POST requests to http://m.vid.ly/api/
+
+            //TODO deserialize the response into a new VidlyResponse object.
             throw new NotImplementedException();
         }
     }
