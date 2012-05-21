@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Xml;
 using System.Xml.Serialization;
 
 namespace DoUnlimited
@@ -62,6 +64,22 @@ namespace DoUnlimited
             {
                 this._errors = value;
             }
+        }
+
+        public static VidlyResponse Create(string xml)
+        {
+            StringReader sr = new StringReader(xml);            
+            XmlSerializer serial = new XmlSerializer(typeof(VidlyResponse));
+            XmlReader xr = XmlReader.Create(sr);
+            VidlyResponse response = (VidlyResponse)serial.Deserialize(xr);
+            return response;
+        }
+
+        public static VidlyResponse Create(XmlDocument xmlDoc)
+        {
+            VidlyResponse response = new VidlyResponse();
+            //TODO fill in the VidlyResponse object with xmlDoc contents.
+            return response;
         }
     }
 }

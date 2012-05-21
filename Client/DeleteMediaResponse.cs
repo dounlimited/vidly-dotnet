@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Xml;
 using System.Xml.Serialization;
 
 namespace DoUnlimited
@@ -68,6 +69,13 @@ namespace DoUnlimited
             {
                 this._errors = value;
             }
+        }
+
+        public static DeleteMediaResponse Create(XmlDocument xmlDoc)
+        {
+            DeleteMediaResponse response = new DeleteMediaResponse();
+            //TODO fill in the DeleteMediaResponse object with xmlDoc contents.
+            return response;
         }
     }
 }

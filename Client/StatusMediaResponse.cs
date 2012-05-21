@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Xml;
 using System.Xml.Serialization;
 
 namespace DoUnlimited
@@ -68,6 +69,13 @@ namespace DoUnlimited
             {
                 this._errors = value;
             }
+        }
+
+        public static StatusMediaResponse Create(XmlDocument xmlDoc)
+        {
+            StatusMediaResponse response = new StatusMediaResponse();
+            //TODO fill in the StatusMediaResponse object with xmlDoc contents.
+            return response;
         }
     }
 }
