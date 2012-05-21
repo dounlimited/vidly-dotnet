@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
+using System.Xml;
 
 namespace DoUnlimited
 {
@@ -13,6 +16,8 @@ namespace DoUnlimited
         private string _userId;
         private string _userKey;
         private string _notify;
+        private string _debugRequest;
+        private string _debugResponse;
 
         public string UserId
         {
@@ -50,11 +55,28 @@ namespace DoUnlimited
             }
         }
 
+        public string DebugRequest
+        {
+            get
+            {
+                return this._debugRequest;
+            }
+        }
+
+        public string DebugResponse
+        {
+            get
+            {
+                return this._debugResponse;
+            }
+        }
+
         public VidlyResponse AddMedia(List<MediaSource> media)
         {
             AddMediaRequest request = new AddMediaRequest();
             request.Sources.AddRange(media);
-            VidlyResponse response = this.RequestAction(request);
+            XmlDocument xml = this.RequestAction(request);
+            VidlyResponse response = VidlyResponse.Create(xml);
             return response;
         }
 
@@ -62,7 +84,8 @@ namespace DoUnlimited
         {
             AddMediaRequest request = new AddMediaRequest("AddMediaLite");
             request.Sources.AddRange(media);
-            VidlyResponse response = this.RequestAction(request);
+            XmlDocument xml = this.RequestAction(request);
+            VidlyResponse response = VidlyResponse.Create(xml);
             return response;
         }
 
@@ -70,39 +93,67 @@ namespace DoUnlimited
         {
             UpdateMediaRequest request = new UpdateMediaRequest();
             request.Sources.AddRange(media);
-            VidlyResponse response = this.RequestAction(request);
+            XmlDocument xml = this.RequestAction(request);
+            VidlyResponse response = VidlyResponse.Create(xml);
             return response;
         }
 
-        public void DeleteMedia(DeleteMediaRequest request)
+        public DeleteMediaResponse DeleteMedia(DeleteMediaRequest request)
         {
             this.RequestAction(request);
-            //return response;
+            XmlDocument xml = this.RequestAction(request);
+            DeleteMediaResponse response = DeleteMediaResponse.Create(xml);
+            return response;
         }
 
-        public void GetStatus(StatusMediaRequest request)
+        public StatusMediaResponse GetStatus(StatusMediaRequest request)
         {
-            this.RequestAction(request);
+            XmlDocument xml = this.RequestAction(request);
+            StatusMediaResponse response = StatusMediaResponse.Create(xml);
+            return response;
         }
 
         public void GetStatistics()
         {
+            //TODO implement GetStatistics
+            //TODO create a GetStatistics Request and Response class.
             throw new NotImplementedException();
         }
 
-        private VidlyResponse RequestAction(VidlyRequest request)
+        private XmlDocument RequestAction(VidlyRequest request)
         {
             request.UserId = this.UserId;
             request.UserKey = this.UserKey;
             request.Notify = this.Notify;
 
-            string xmlRequest = request.ToXml(request.GetType());
-            Console.WriteLine(xmlRequest);
+            string xmlRequest = string.Format("xml={0}", request.ToXml(request.GetType()));
+            this._debugRequest = xmlRequest;
+            byte[] formData = Encoding.UTF8.GetBytes(xmlRequest);
 
-            //TODO POST requests to http://m.vid.ly/api/
+            WebRequest wr = WebRequest.Create("http://m.vid.ly/api/");
+            ((HttpWebRequest)wr).UserAgent = "Vidly.NET; http://github.com/dounlimited/vidly-dotnet";
+            wr.Method = "POST";
+            wr.ContentType = "application/x-www-form-urlencoded";
+            wr.ContentLength = formData.Length;
 
-            //TODO deserialize the response into a new VidlyResponse object.
-            throw new NotImplementedException();
+            Stream dataStream = wr.GetRequestStream();
+            dataStream.Write(formData, 0, formData.Length);
+            dataStream.Close();
+
+            WebResponse response = wr.GetResponse();
+            dataStream = response.GetResponseStream();
+            StreamReader sr = new StreamReader(dataStream);
+
+            string xmlResponse = sr.ReadToEnd();
+            this._debugResponse = xmlResponse;
+
+            sr.Close();
+            dataStream.Close();
+            response.Close();
+
+            XmlDocument r = new XmlDocument();
+            r.LoadXml(xmlResponse);
+            return r;
         }
     }
 }

@@ -67,10 +67,12 @@ namespace Tests
         {
             List<MediaSource> media = new List<MediaSource>();
             media.Add(new MediaSource("http://google.com/logo.gif"));
-            media.Add(new MediaSource("http://yahoo.com/video.wmv", "cdn.yahoo.com"));
-            media.Add(new MediaSource("http://bing.com/funny.mov", "cdn.bing.com", "formatObject"));
+            //media.Add(new MediaSource("http://yahoo.com/video.wmv", "cdn.yahoo.com"));
+            //media.Add(new MediaSource("http://bing.com/funny.mov", "cdn.bing.com", "formatObject"));            
             this._vidly.AddMedia(media);
-            this._vidly.AddMediaLite(media);
+            Console.WriteLine("REQUEST >> " + this._vidly.DebugRequest);
+            Console.WriteLine("RESPONSE << " + this._vidly.DebugResponse);
+
         }
         
         //TODO test error handling of AddMedia response
@@ -115,6 +117,8 @@ namespace Tests
             this._vidly.DeleteMedia(request);
         }
 
+        //TODO test error handling of DeleteMedia response
+
         [TestMethod]
         public void Test_Valid_GetStatus()
         {
@@ -122,6 +126,44 @@ namespace Tests
             request.MediaShortLinks.Add("http://vid.ly/abc123");
             request.MediaShortLinks.Add("http://vid.ly/def456");
             this._vidly.GetStatus(request);
+        }
+
+        //TODO test error handling of GetStatus response
+
+        [Ignore]
+        [TestMethod]
+        public void Test_Can_Deserialize_Error_Response()
+        {
+            string xml = @"<?xml version=""1.0""?>
+ <Response>
+  <Message>Action failed: wrong query info.</Message>
+  <MessageCode>1.1</MessageCode>
+  <Errors>
+   <Error>
+    <ErrorCode>1.2</ErrorCode>
+    <ErrorName>Wrong UserID given.</ErrorName>
+    <Description>Your UserID is either empty or not present in the database.</Description>
+    <Suggestion>Check your UserID.</Suggestion>
+   </Error>
+   <Error>
+    <ErrorCode>1.3</ErrorCode>
+    <ErrorName>Wrong UserKey given.</ErrorName>
+    <Description>Your UserKey either is empty or does not fit given UserID.</Description>
+    <Suggestion>Check that your UserKey is valid and fits your UserID.</Suggestion>
+   </Error>
+   <Error>
+    <ErrorCode>1.6</ErrorCode>
+    <ErrorName>Wrong action name.</ErrorName>
+    <Description>The action name you provided is either empty or not valid.</Description>
+    <Suggestion>Check the correctness of the given action name and make sure that such action exists.</Suggestion>
+   </Error>
+  </Errors>
+ </Response>";
+
+            VidlyResponse response = VidlyResponse.Create(xml);
+            Assert.AreEqual("Action failed: wrong query info.", response.Message);
+            Assert.AreEqual((decimal)1.1, response.MessageCode);
+            Assert.AreEqual(3, response.Errors.Count);
         }
     }
 }
