@@ -104,5 +104,24 @@ namespace Tests
         }
 
         //TODO test error handling of UpdateMedia response
+
+        [TestMethod]
+        public void Test_Valid_DeleteMedia()
+        {
+            DeleteMediaRequest request = new DeleteMediaRequest();
+            request.MediaShortLinks.Add("http://vid.ly/abc123");
+            request.MediaShortLinks.Add("http://vid.ly/def456");
+            request.BatchID = 330;
+            this._vidly.DeleteMedia(request);
+        }
+
+        [TestMethod]
+        public void Test_Valid_GetStatus()
+        {
+            StatusMediaRequest request = new StatusMediaRequest();
+            request.MediaShortLinks.Add("http://vid.ly/abc123");
+            request.MediaShortLinks.Add("http://vid.ly/def456");
+            this._vidly.GetStatus(request);
+        }
     }
 }

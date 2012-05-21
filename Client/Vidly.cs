@@ -75,14 +75,15 @@ namespace DoUnlimited
             return response;
         }
 
-        public void DeleteMedia()
+        public void DeleteMedia(DeleteMediaRequest request)
         {
-            throw new NotImplementedException();
+            this.RequestAction(request);
+            //return response;
         }
 
-        public void GetStatus()
+        public void GetStatus(StatusMediaRequest request)
         {
-            throw new NotImplementedException();
+            this.RequestAction(request);
         }
 
         public void GetStatistics()
