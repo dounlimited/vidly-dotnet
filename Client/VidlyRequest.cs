@@ -77,8 +77,11 @@ namespace DoUnlimited
             XmlWriterSettings xws = new XmlWriterSettings();
             xws.Encoding = Encoding.UTF8;
 
+            XmlSerializerNamespaces xns = new XmlSerializerNamespaces();
+            xns.Add(string.Empty, string.Empty);
+
             XmlWriter xw = XmlWriter.Create(ms, xws);
-            serial.Serialize(xw, this);
+            serial.Serialize(xw, this, xns);
 
             xw.Flush();
             xw.Close();
