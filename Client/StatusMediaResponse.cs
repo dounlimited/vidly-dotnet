@@ -74,7 +74,51 @@ namespace DoUnlimited.Vidly
         public static StatusMediaResponse Create(XmlDocument xmlDoc)
         {
             StatusMediaResponse response = new StatusMediaResponse();
-            //TODO fill in the StatusMediaResponse object with xmlDoc contents.
+            response.Message = xmlDoc.DocumentElement.SelectSingleNode("Message").InnerText;
+            response.MessageCode = decimal.Parse(xmlDoc.DocumentElement.SelectSingleNode("MessageCode").InnerText);
+
+            XmlNodeList successNodes = xmlDoc.DocumentElement.SelectNodes("Success/Task");
+
+            for (int i = 0; i < successNodes.Count; i++)
+            {
+                XmlNode successNode = successNodes[i];
+                MediaStatus status = new MediaStatus();
+
+                status.UserID = successNode.SelectSingleNode("UserID").InnerText;
+                status.MediaShortLink = successNode.SelectSingleNode("MediaShortLink").InnerText;
+                status.SourceFile = successNode.SelectSingleNode("SourceFile").InnerText;
+                status.Status = successNode.SelectSingleNode("Status").InnerText;
+                status.Created = DateTime.Parse(successNode.SelectSingleNode("Created").InnerText);
+                status.Updated = DateTime.Parse(successNode.SelectSingleNode("Updated").InnerText);
+                status.UserEmail = successNode.SelectSingleNode("UserEmail").InnerText;
+
+                XmlNode batchNode = successNode.SelectSingleNode("BatchID");
+                if (!string.IsNullOrEmpty(batchNode.InnerText))
+                {
+                    status.BatchID = int.Parse(batchNode.InnerText);
+                }
+
+                response.MediaStatus.Add(status);
+            }
+
+            XmlNodeList errorNodes = xmlDoc.DocumentElement.SelectNodes("Errors/Error");
+
+            for (int i = 0; i < errorNodes.Count; i++)
+            {
+                XmlNode errorNode = errorNodes[i];
+                MediaError error = new MediaError();
+
+                XmlNode sourceFileNode = errorNode.SelectSingleNode("SourceFile");
+                if (sourceFileNode != null)
+                {
+                    error.SourceFile = errorNode.SelectSingleNode("SourceFile").InnerText;
+                }
+                error.ErrorCode = decimal.Parse(errorNode.SelectSingleNode("ErrorCode").InnerText);
+                error.Description = errorNode.SelectSingleNode("Description").InnerText;
+                error.Suggestion = errorNode.SelectSingleNode("Suggestion").InnerText;
+                response.Errors.Add(error);
+            }
+
             return response;
         }
     }

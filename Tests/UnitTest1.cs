@@ -66,12 +66,16 @@ namespace Tests
         public void Test_Valid_AddMedia()
         {
             List<MediaSource> media = new List<MediaSource>();
-            media.Add(new MediaSource("http://google.com/logo.gif"));
-            //media.Add(new MediaSource("http://yahoo.com/video.wmv", "cdn.yahoo.com"));
-            //media.Add(new MediaSource("http://bing.com/funny.mov", "cdn.bing.com", "formatObject"));            
-            this._vidly.AddMedia(media);
+            media.Add(new MediaSource("http://cf.cdn.vid.ly/4c9e1m/mp4.mp4"));
+            VidlyResponse response = this._vidly.AddMedia(media);
             Console.WriteLine("REQUEST >> " + this._vidly.DebugRequest);
             Console.WriteLine("RESPONSE << " + this._vidly.DebugResponse);
+
+            Assert.IsNotNull(response);
+            Assert.IsNotNull(response.Message);
+            Assert.IsTrue(response.MessageCode > 0);
+            Assert.IsTrue(response.Success.Count > 0);
+            Assert.AreEqual(0, response.Errors.Count);
 
         }
         
@@ -123,47 +127,31 @@ namespace Tests
         public void Test_Valid_GetStatus()
         {
             StatusMediaRequest request = new StatusMediaRequest();
-            request.MediaShortLinks.Add("http://vid.ly/abc123");
-            request.MediaShortLinks.Add("http://vid.ly/def456");
-            this._vidly.GetStatus(request);
+            request.MediaShortLinks.Add("8j1s4d");
+            request.MediaShortLinks.Add("4e2o0j");            
+            StatusMediaResponse response = this._vidly.GetStatus(request);
+
+            Console.WriteLine("REQUEST >> " + this._vidly.DebugRequest);
+            Console.WriteLine("RESPONSE << " + this._vidly.DebugResponse);
+
+            Assert.AreEqual(2, response.MediaStatus.Count);
+            Assert.AreEqual(0, response.Errors.Count);
         }
 
-        //TODO test error handling of GetStatus response
-
-        [Ignore]
         [TestMethod]
-        public void Test_Can_Deserialize_Error_Response()
+        public void Test_Invalid_GetStatus()
         {
-            string xml = @"<?xml version=""1.0""?>
- <Response>
-  <Message>Action failed: wrong query info.</Message>
-  <MessageCode>1.1</MessageCode>
-  <Errors>
-   <Error>
-    <ErrorCode>1.2</ErrorCode>
-    <ErrorName>Wrong UserID given.</ErrorName>
-    <Description>Your UserID is either empty or not present in the database.</Description>
-    <Suggestion>Check your UserID.</Suggestion>
-   </Error>
-   <Error>
-    <ErrorCode>1.3</ErrorCode>
-    <ErrorName>Wrong UserKey given.</ErrorName>
-    <Description>Your UserKey either is empty or does not fit given UserID.</Description>
-    <Suggestion>Check that your UserKey is valid and fits your UserID.</Suggestion>
-   </Error>
-   <Error>
-    <ErrorCode>1.6</ErrorCode>
-    <ErrorName>Wrong action name.</ErrorName>
-    <Description>The action name you provided is either empty or not valid.</Description>
-    <Suggestion>Check the correctness of the given action name and make sure that such action exists.</Suggestion>
-   </Error>
-  </Errors>
- </Response>";
+            StatusMediaRequest request = new StatusMediaRequest();
+            request.MediaShortLinks.Add("abc123");
+            StatusMediaResponse response = this._vidly.GetStatus(request);
 
-            VidlyResponse response = VidlyResponse.Create(xml);
-            Assert.AreEqual("Action failed: wrong query info.", response.Message);
-            Assert.AreEqual((decimal)1.1, response.MessageCode);
-            Assert.AreEqual(3, response.Errors.Count);
+            Console.WriteLine("REQUEST >> " + this._vidly.DebugRequest);
+            Console.WriteLine("RESPONSE << " + this._vidly.DebugResponse);
+
+            Assert.AreEqual(0, response.MediaStatus.Count);
+            Assert.AreEqual(2, response.Errors.Count);
+            Assert.AreEqual((decimal)4.3, response.MessageCode);
         }
+
     }
 }

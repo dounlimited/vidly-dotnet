@@ -46,7 +46,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AddMediaRequest.cs" />
-    <Compile Include="AddMediaResponse.cs" />
     <Compile Include="DeleteMediaRequest.cs" />
     <Compile Include="DeleteMediaResponse.cs" />
     <Compile Include="MediaError.cs" />
