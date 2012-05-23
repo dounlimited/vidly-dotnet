@@ -74,7 +74,34 @@ namespace DoUnlimited.Vidly
         public static DeleteMediaResponse Create(XmlDocument xmlDoc)
         {
             DeleteMediaResponse response = new DeleteMediaResponse();
-            //TODO fill in the DeleteMediaResponse object with xmlDoc contents.
+            response.Message = xmlDoc.DocumentElement.SelectSingleNode("Message").InnerText;
+            response.MessageCode = decimal.Parse(xmlDoc.DocumentElement.SelectSingleNode("MessageCode").InnerText);
+
+            XmlNodeList successNodes = xmlDoc.DocumentElement.SelectNodes("Success/MediaShortLink");
+
+            for (int i = 0; i < successNodes.Count; i++)
+            {
+                response.MediaShortLinks.Add(successNodes[i].InnerText);
+            }
+
+            XmlNodeList errorNodes = xmlDoc.DocumentElement.SelectNodes("Errors/Error");
+
+            for (int i = 0; i < errorNodes.Count; i++)
+            {
+                XmlNode errorNode = errorNodes[i];
+                MediaError error = new MediaError();
+
+                XmlNode sourceFileNode = errorNode.SelectSingleNode("SourceFile");
+                if (sourceFileNode != null)
+                {
+                    error.SourceFile = errorNode.SelectSingleNode("SourceFile").InnerText;
+                }
+                error.ErrorCode = decimal.Parse(errorNode.SelectSingleNode("ErrorCode").InnerText);
+                error.Description = errorNode.SelectSingleNode("Description").InnerText;
+                error.Suggestion = errorNode.SelectSingleNode("Suggestion").InnerText;
+                response.Errors.Add(error);
+            }
+
             return response;
         }
     }

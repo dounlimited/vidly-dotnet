@@ -115,10 +115,13 @@ namespace Tests
         public void Test_Valid_DeleteMedia()
         {
             DeleteMediaRequest request = new DeleteMediaRequest();
-            request.MediaShortLinks.Add("http://vid.ly/abc123");
-            request.MediaShortLinks.Add("http://vid.ly/def456");
-            request.BatchID = 330;
-            this._vidly.DeleteMedia(request);
+            request.MediaShortLinks.Add("y5w6t3");
+            // If a BatchID is specified, the MediaShortLinks are ignored.
+            //request.BatchID = 330;
+            DeleteMediaResponse response = this._vidly.DeleteMedia(request);
+
+            Console.WriteLine("REQUEST >> " + this._vidly.DebugRequest);
+            Console.WriteLine("RESPONSE << " + this._vidly.DebugResponse);
         }
 
         //TODO test error handling of DeleteMedia response
